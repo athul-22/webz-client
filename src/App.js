@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div data-theme={theme} className="w-full min-h-[100vh">
-      <p className="text-blue"> Hello World</p>
+      {/* <p className="text-blue"> Hello World</p> */}
       <Routes>
         {/* WITH TOKEN ACCESS ONLY USER CAN ACCESS THIS WRAPPED ROUTES */}
         <Route element={<Layout />} >
