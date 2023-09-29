@@ -33,7 +33,7 @@ const Login = () => {
               <TbSocial />
             </div>
             <span className="text-2xl text-[#065ad8]" font-semibold>
-              Webz
+              Webzz
             </span>
           </div>
           <p className="text-ascent-1 text-base font-semibold">

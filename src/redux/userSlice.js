@@ -1,13 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { dispatch } from "./store";
+import { user } from "../assets/data";
 
 const initialState = {
-    user: JSON.parse(window?.localStorage.getItem("user"))??{},
+    user: JSON.parse(window?.localStorage.getItem("user"))?? user,
     edit: false,
 };
 
 const userSlice = createSlice({
-
     name: "user",
     initialState,
     reducers: {
@@ -33,7 +32,7 @@ export function UserLogin(user){
     }
 }
 
-export function logout(){
+export function Logout(){
     return(dispatch,getState) => {
         dispatch(userSlice.actions.logout());
     }
