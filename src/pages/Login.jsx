@@ -33,7 +33,7 @@ const Login = () => {
               <TbSocial />
             </div>
             <span className="text-2xl text-[#065ad8]" font-semibold>
-              Webz
+              Webzz
             </span>
           </div>
           <p className="text-ascent-1 text-base font-semibold">
@@ -42,7 +42,7 @@ const Login = () => {
           <span className="text-sm mt-2 text-ascent-2">Welcome Back !</span>
 
           {/* FORM */}
-          <form className="py-8 flex flex-col gap-5">
+          <form onSubmit={handleSubmit(onsubmit)} className="py-8 flex flex-col gap-5">
             <TextInput
               name="email"
               placeholder="email"
