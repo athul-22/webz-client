@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomButton, Loading, TextInput } from "../components";
+import { Link } from "react-router-dom";
 
 const ResetPassword = () => {
   const {
@@ -61,6 +62,13 @@ const ResetPassword = () => {
               title="Reset Password"
             />
           )}
+         <Link to="/login" style={{display:'flex', justitfyContent:'center', justifyContent:'center' }}>
+         <CustomButton
+              type="button"
+              containerStyles={`flex justify-center rounded-md bg-white px-8 py-3 text-sm font-medium text-blue outline-none`}
+              title="Home"
+            />
+         </Link>
         </form>
       </div>
     </div>
