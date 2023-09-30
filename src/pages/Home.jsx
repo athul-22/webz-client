@@ -6,19 +6,36 @@ import {
   TextInput,
   FriendsCard,
   TopBar,
+  PostCard,
+  Loading,
 } from "../components";
 import { useForm } from "react-hook-form";
-import { suggest, requests } from "../assets/data";
+import { suggest, requests,posts } from "../assets/data";
 import { Link } from "react-router-dom";
 import { NoProfile } from "../assets";
-import { BsPersonFillAdd } from "react-icons/bs";
+import { BsFiletypeGif, BsPersonFillAdd } from "react-icons/bs";
+import { BiImages, BiSolidVideo } from "react-icons/bi";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
   const [friendRequest, setFriendrequest] = useState(requests);
   const [suggestedFriends, setSuggestedFriends] = useState(suggest);
+
+  const [errMsg, setErrmsg] = useState("");
+
+  const [file, setFile] = useState(null);
+  const [loading , setLoading] = useState(false);
+  const [posting, setPosting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const handlePostSubmit = async (data) => {};
+
   return (
-    <div className="home w-full px-0 lg:px pb-20 2xl:px-40 bg-bgColor lg:rounded-lg h-screen overflow-hidden">
+    <div className="home w-full px-0 lg:px pb-20 2xl:px-40 bg-bgColor rounded-lg h-screen overflow-hidden">
       <TopBar />
 
       <div className="w-full flex gap-2 lg:gap-2 pt-5 pb-10 h-full">
@@ -27,8 +44,116 @@ const Home = () => {
           <ProfileCard user={user} />
           <FriendsCard friends={user?.friends} />
         </div>
+
         {/* CENTER  */}
-        <div className="flex-1 h-full bg-primary px-4 flex flex-col gap-6 overflow-y-auto lg:rounded-lg"></div>
+        <div className="flex-1 h-full bg-primary px-4 flex flex-col gap-6 overflow-y-auto lg:rounded-lg">
+          {/* CREATE POST */}
+          <form
+            onSubmit={handleSubmit(handlePostSubmit)}
+            className="bg-primary px-4 rounded-lg"
+          >
+            <div className="w-full flex items-center  py-4 border-b border-[#66666645]">
+              <img
+                src={user?.profileUrl ?? NoProfile}
+                alt="U"
+                className="w-14 h-14 rounded-full object-cover"
+              />
+              <TextInput
+                styles="w-full rounded-full py-3 ml-10"
+                placeholder="What's on your mind...."
+                name="description"
+                register={register("description", {
+                  required: "Write something about post",
+                })}
+                error={errors.description ? errors.description.message : ""}
+              />
+              {errMsg?.message && (
+                <span
+                  role="alert"
+                  className={`text-sm ${
+                    errMsg?.status === "failed"
+                      ? "text-[#f64949fe]"
+                      : "text-[#2ba150fe]"
+                  } mt-0.5`}
+                ></span>
+              )}
+            </div>
+            <div className="flex items-center justify-between py-4">
+              {/* IMAGE UPLOAD */}
+              <label
+                htmlFor="imageUpload"
+                className="flex items-center gap-1 text-ascent-2 text-base hover:text-ascent-1 cursor-pointer"
+              >
+                <input
+                  type="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  className="hidden "
+                  id="imageUpload"
+                  data-max-size="size"
+                  accept=".jpg, .png, .jpeg"
+                />
+                <BiImages />
+                <span>Images</span>
+              </label>
+
+              {/* VIDEO UPLOAD */}
+              <label
+                htmlFor="videoUplaod"
+                className="flex items-center gap-1 text-ascent-2 text-base hover:text-ascent-1 cursor-pointer"
+              >
+                <input
+                  type="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  className="hidden"
+                  id="videoUplaod"
+                  data-max-size="5120"
+                  accept=".mp4,.wav"
+                />
+                <BiSolidVideo />
+                <span>Video</span>
+              </label>
+
+              {/* GIT UPLOAD */}
+              <label
+                htmlFor="gifUpload"
+                className="flex items-center gap-1 text-ascent-2 text-base hover:text-ascent-1 cursor-pointer"
+              >
+                <input
+                  type="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  className="hidden "
+                  id="vgifUpload"
+                  data-max-size="5120"
+                  accept=".gif"
+                />
+                <BsFiletypeGif />
+                <span>Gif</span>
+              </label>
+
+              <div>
+                {posting ? (
+                  <Loading />
+                ) : (
+                  <CustomButton
+                    type="submit"
+                    title="post"
+                    containerStyles="bg-[#0444a4] text-white py-1 px-6 rounded-full font-semibold text-sm"
+                  />
+                )}
+              </div>
+            </div>
+          </form>
+
+          {loading ? (<loading/> ) : posts?.length > 0 ? (
+            posts?.map((post)=>(
+              <PostCard key={post?._id} post={post} user={user} deletePost={()=>{}} likePost={()=>{}}/>
+            ))
+          ):(
+            <div className='flex w-full h-full items-center justify-center'>
+            <p className='text-lg text-ascent-2'>No Post Available</p>
+            </div>
+          )}
+        </div>
         {/* RIGHT  */}
         <div className="hidden w-1/4 h-full lg:flex flex-col gap-8 overflow-y-auto">
           {/* FRIEND REQUEST */}
@@ -106,10 +231,15 @@ const Home = () => {
                     </div>
                   </Link>
                   <div className="flex gap-1">
-                    <button 
-                      className="bg-[#0444a430] text-sm text-white p-1 rounded" onClick={()=>{}}>
-                        <BsPersonFillAdd size={20} className="text-[#0f52b6] rounded-full" />
-                      </button>
+                    <button
+                      className="bg-[#0444a430] text-sm text-white p-1 rounded"
+                      onClick={() => {}}
+                    >
+                      <BsPersonFillAdd
+                        size={20}
+                        className="text-[#0f52b6] rounded-full"
+                      />
+                    </button>
                   </div>
                 </div>
               ))}
