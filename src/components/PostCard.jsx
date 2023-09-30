@@ -4,15 +4,81 @@ import { NoProfile } from "../assets";
 import moment from "moment";
 import { BiComment, BiLike, BiSolidLike } from "react-icons/bi";
 import {MdOutlineDeleteOutline} from 'react-icons/md'
+import { useForm } from "react-hook-form";
+import TextInput from "./TextInput";
+import Loading from "./Loading";
+import CustomButton from "./CustomButton";
+import { postComments } from "../assets/data";
+
+const CommentForm = ({user,id,replyAt,getComments}) => {
+    const [loading, setLoading] = useState(false);
+    const [errMsg,setErrMsg] = useState("");
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: {errors},
+    } = useForm ({
+        mode: "onChange",
+    });
+
+    const onSubmit = async() => {};
+
+
+    
+    return(
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full border-b  border-[#66666645]">
+            <div className="w-full flex items-center gap-2 py-4">
+                <img 
+                    src={user?.profileUrl ?? NoProfile}
+                    alt="userimage"
+                    className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <TextInput
+                    name="comment"
+                    styles='w-full rounded-full py-3'
+                    placeholder={replyAt ? `Reply @${replyAt}` : "Comment this post"}
+                    register={register("Comment",{
+                        required:"Comment can not be empty",
+                    })}
+                    errors={errors.comment ? errors.comment.message : ""}
+                    />
+            </div>
+            {errMsg?.message && (
+                <span
+                  role="alert"
+                  className={`text-sm ${
+                    errMsg?.status === "failed"
+                      ? "text-[#f64949fe]"
+                      : "text-[#2ba150fe]"
+                  } mt-0.5`}
+                ></span>
+              )}
+              <div className='flex items-end justify-end pb-2'>
+                   {loading? (<Loading/>) : (
+                     <CustomButton
+                      title='Submit' 
+                      type='submit'
+                      containerStyles='bg-[#0444a4] text-white py-1 px-3 rounded-full
+                    font-semibold text-sm'/>)}
+                   </div>
+                </form>
+    )
+}
 
 const PostCard = ({ post, user, deletePost, likePost }) => {
   const [showAll, setShowAll] = useState(0);
   const [showReply, setShowReply] = useState(0);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [replyComments,setReplyComments] = useState('')
   const [showComments, setShowComments] = useState(0);
   
-  const getComments = async() => {};
+  const getComments = async() => {
+    setReplyComments(0);
+    setComments(postComments);
+    setLoading(false)
+  };
 
   return (
     <div className="mb-2 bg-primary p-4 rounded-xl ">
@@ -62,7 +128,7 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
             )}
             {post?.likes?.length} Likes
         </p>
-        <p className="flex gap-2 items-center text-base cursor-pointer "
+        <p className="flex gap-2 items-center text-base cursor-pointer" 
         onClick={()=> {
             setShowComments(showComments === post?._id ? null : post?._id);
             getComments(post?._id);
@@ -72,7 +138,7 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
             {post?.comment?.length} Comments
         </p>
         {user?._id === post?.userId?._id && (<div>
-            <div className="flex gap-1 items-center text-base text-ascent-1 cursor-pointer" onClick={()=> deletePost(post?._id)}>
+            <div className="flex gap-1 items-center text-base text-ascent-2 ml-3 cursor-pointer" onClick={()=> deletePost(post?._id)}>
                 <MdOutlineDeleteOutline size={20}/>
                 <span>Delete</span>
             </div>
@@ -80,7 +146,31 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
       </div>
 
         {/* COMMENTS */}
-        <div></div>
+        <div>
+            {showComments === post?._id && <div className="w-full mt-4 border-t border-[#66666645] pt-4">
+                <CommentForm  
+                user={user}
+                id={post?._id}
+                getComments={()=> getComments(post?._id)}
+                />
+            </div>}
+            {loading ? (
+            <Loading/>
+            ): comments?.length > 0 ? (
+                comments?.map((comment)=> (
+                    <div className="w-full py-2" key={comment?._id}>
+                        <div className="flex gap-3 items-center mb-1">
+                            <Link to={"/profile/"+comment?.userId?._id}>
+                                <img src={comment?.userId?.profileUrl ?? NoProfile} alt="" className="w-10 h-10 rounded-full object-cover"/>
+                            </Link>
+                        </div>    
+                    </div>
+                ))
+            ):(<span className="flex text-sm py-4 text-ascent-2 text-center">
+                No comments. post the first to comment
+            </span>)}
+        </div>
+        
     </div>
   );
 };
