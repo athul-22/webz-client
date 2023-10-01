@@ -20,7 +20,7 @@ const ResetPassword = () => {
   return (
     <div className="w-full h-[100vh] bg-bgColor flex items-center justify-center p-6">
       <div className="bg-primary w-full mg:w-1/3 2xl:w-1/4 px-6 py-8 shadow-md rounded-lg">
-        <p className="text-ascent-1 text-lg front-semibold">Email Address</p>
+        <p className="text-ascent-1 text-lg front-semibold">Reset Your password</p>
         <span className="text-sm text-ascent-2">
           Enter email address used during registration
         </span>
