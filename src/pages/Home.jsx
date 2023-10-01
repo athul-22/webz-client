@@ -8,6 +8,7 @@ import {
   TopBar,
   PostCard,
   Loading,
+  EditProfile,
 } from "../components";
 import { useForm } from "react-hook-form";
 import { suggest, requests,posts } from "../assets/data";
@@ -17,7 +18,7 @@ import { BsFiletypeGif, BsPersonFillAdd } from "react-icons/bs";
 import { BiImages, BiSolidVideo } from "react-icons/bi";
 
 const Home = () => {
-  const { user } = useSelector((state) => state.user);
+  const { user , edit} = useSelector((state) => state.user);
   const [friendRequest, setFriendrequest] = useState(requests);
   const [suggestedFriends, setSuggestedFriends] = useState(suggest);
 
@@ -35,6 +36,7 @@ const Home = () => {
   const handlePostSubmit = async (data) => {};
 
   return (
+    <>
     <div className="home w-full px-0 lg:px pb-20 2xl:px-40 bg-bgColor rounded-lg h-screen overflow-hidden">
       <TopBar />
 
@@ -248,6 +250,8 @@ const Home = () => {
         </div>
       </div>
     </div>
+    {edit && <EditProfile/>}
+    </>
   );
 };
 
