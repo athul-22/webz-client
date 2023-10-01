@@ -60,7 +60,6 @@ const CommentForm = ({ user, id, replyAt, getComments }) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     mode: "onChange",
