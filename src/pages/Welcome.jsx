@@ -15,16 +15,16 @@ const Welcome = () => {
    <h1 id='welcome' className="linear-wipe">WELCOME!</h1>
     </div>
     <div className='button-main'>
-      <Link to='/login'>
+      <Link to='/login' target="_blank" >
       <button className='button button-primary'>Create Account</button>
       </Link>
 
-      <Link to='/register'>
+      <Link  target="_blank" to='/register'>
       <button className='button button-secondary'>Login</button><br/>
       </Link>
     </div>
     <div className='button-main'>
-    <Link to='https://www.github.com/athul-22'>
+    <Link target="_blank"  to='https://www.github.com/athul-22'>
     <button className='github'>GITHUB</button>
     </Link>
     </div>
