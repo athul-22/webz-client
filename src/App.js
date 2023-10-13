@@ -1,5 +1,5 @@
 import { Outlet, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import {Home, Login, Profile, Register, ResetPassword} from './pages';
+import {Home, Login, Profile, Register, ResetPassword, Welcome,Error} from './pages';
 import { useSelector } from "react-redux";
 
 //✅ TO CHECK WEATHER USER HAVE A TOKEN OR NOT - IF NOT REDIRECT TO LOGIN PAGE 
@@ -28,7 +28,9 @@ function App() {
         {/* WITH TOKEN ACCESS ONLY USER CAN ACCESS THIS WRAPPED ROUTES */}
         <Route element={<Layout />} >
           <Route path="/" element={<Home />} />
+          <Route path='/welcome' element={<Welcome/>}/>
           <Route path="/profile/:id?" element={<Profile />} />
+          <Route path='*' element={<Error/>} />
         </Route>
         {/* COMMON ROUTES FOR ALL USERS */}
         <Route path="/register" element={<Register />} />
