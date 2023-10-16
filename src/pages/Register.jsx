@@ -157,7 +157,7 @@ const Register = () => {
           <div className='relative w-full flex items-center justify-center'>
             <img
               src={Peoplebg}
-              alt='Bg Image'
+              alt='Bg Images'
               className='w-48 2xl:w-64 h-48 2xl:h-64 rounded-full object-cover'
             />
 
