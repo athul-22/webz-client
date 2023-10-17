@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { SetPosts } from '../redux/postSlice';
+import e from 'express';
 
 const API_URL = "http://localhost:8800";
 
@@ -82,6 +83,56 @@ export const deletePost = async (id, token)=> {
             token:token,
             method:"DELETE",
         });
+        return;
+    }catch(error){
+        console.log(error);
+    }
+}
+
+export const getUserInfo = async(token , id)=> {
+    try{
+        const uri = id === undefined ? "/user/get-user" : "/user/get-user"+id;
+        const res = await apiRequest({
+            url: uri,
+            token:token,
+            method:"POST",
+        })
+        if(res?.message === "Authentication failed"){
+            localStorage.removeItem("user");
+            window.alert("User session expired. Login again");
+            window.location.replace("/login");
+        }
+        return res?.user;
+    }catch(error){
+        console.log(error);
+    }
+}
+
+
+export const sendFriendRequest = async (token,id)=> {
+    try {
+        const res = await apiRequest({
+            url:"/users/friend-request",
+            token: token,
+            method:"POST",
+            data: {requestTo: id},
+        });
+       
+    } catch(error){
+        console.log(error);
+    }
+}
+
+
+export const viewUserProfile = async(token,id)=> {
+    try {
+        const res = await apiRequest({
+            url: "/users/profile-view",
+            token:token,
+            method:"POST",
+            data: {id},
+        });
+        return;
     }catch(error){
         console.log(error);
     }
