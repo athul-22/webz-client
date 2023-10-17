@@ -64,12 +64,25 @@ export const fetchPosts = async(token,dispatch, uri, data)=> {
 export const likePost = async(uri,token)=> {
     try{
         const res = await apiRequest({
-            url: uri || "/posts",
+            url: uri,
             token:token,
             methodn:"POST",
         })
         return res;
     }catch(error){
         console.log(error)
+    }
+}
+
+
+export const deletePost = async (id, token)=> {
+    try {
+        const res = await apiRequest({
+            url:"/post/"+id,
+            token:token,
+            method:"DELETE",
+        });
+    }catch(error){
+        console.log(error);
     }
 }
