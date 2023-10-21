@@ -1,6 +1,7 @@
 import axios from 'axios';
+import express from 'express';
 import { SetPosts } from '../redux/postSlice';
-import e from 'express';
+
 
 const API_URL = "http://localhost:8800";
 

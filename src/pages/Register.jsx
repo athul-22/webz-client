@@ -8,8 +8,14 @@ import { NoProfile, Peoplebg } from "../assets";
 import { BsShare } from "react-icons/bs";
 import { AiOutlineInteraction } from "react-icons/ai";
 import { ImConnection } from "react-icons/im";
+import { apiRequest } from "../utils";
 
 const Register = () => {
+
+  const [errMsg, setErrMsg] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -19,11 +25,18 @@ const Register = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (data) => {};
-
-  const [errMsg, setErrMsg] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const dispatch = useDispatch();
+  const onSubmit = async (data) => {
+     setIsSubmitting(true);
+     try{
+        const res = await apiRequest({
+          url:"/auth/register",
+          data:data,
+          method:"POST",
+        })
+     }catch(error){
+      console.log(error)
+     }
+  };
 
   return (
     <div className='bg-bgColor w-full h-[100vh] flex items-center justify-center p-6'>
