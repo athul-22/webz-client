@@ -1,5 +1,4 @@
 import axios from 'axios';
-import express from 'express';
 import { SetPosts } from '../redux/postSlice';
 
 
@@ -77,18 +76,19 @@ export const likePost = async(uri,token)=> {
 }
 
 
-export const deletePost = async (id, token)=> {
-    try {
-        const res = await apiRequest({
-            url:"/post/"+id,
-            token:token,
-            method:"DELETE",
-        });
-        return;
-    }catch(error){
-        console.log(error);
-    }
-}
+// export const deletePost = async (id, token)=> {
+//     try {
+//         const res = await apiRequest({
+//             url:"/post/"+id,
+//             token:token,
+//             method:"DELETE",
+//         });
+//         return;
+        
+//     }catch(error){
+//         console.log(error);
+//     }
+// }
 
 export const getUserInfo = async(token , id)=> {
     try{
@@ -110,31 +110,31 @@ export const getUserInfo = async(token , id)=> {
 }
 
 
-export const sendFriendRequest = async (token,id)=> {
-    try {
-        const res = await apiRequest({
-            url:"/users/friend-request",
-            token: token,
-            method:"POST",
-            data: {requestTo: id},
-        });
+// export const sendFriendRequest = async (token,id)=> {
+//     try {
+//         const res = await apiRequest({
+//             url:"/users/friend-request",
+//             token: token,
+//             method:"POST",
+//             data: {requestTo: id},
+//         });
        
-    } catch(error){
-        console.log(error);
-    }
-}
+//     } catch(error){
+//         console.log(error);
+//     }
+// }
 
 
-export const viewUserProfile = async(token,id)=> {
-    try {
-        const res = await apiRequest({
-            url: "/users/profile-view",
-            token:token,
-            method:"POST",
-            data: {id},
-        });
-        return;
-    }catch(error){
-        console.log(error);
-    }
-}
+// export const viewUserProfile = async(token,id)=> {
+//     try {
+//         const res = await apiRequest({
+//             url: "/users/profile-view",
+//             token:token,
+//             method:"POST",
+//             data: {id},
+//         });
+//         return;
+//     }catch(error){
+//         console.log(error);
+//     }
+// }
