@@ -12,15 +12,14 @@ export const API = axios.create({
 export const apiRequest = async ({url,token, data,method })=>{
     try{
         const result = await API(url,{
-            methodl: method|| "GET",
+            method: method || "GET",
             data:data,
             header:{
                 "content-type":"application/json",
                 Authorization:token?`Bearer ${token}`: "",
             }
         })
-        return result?.data
-;
+        return result?.data;
     }catch(error){
         const err = error.response.data;
         console.log(err);
